@@ -4,11 +4,10 @@
 module alu_control(
       input wire       func7_5,
       input wire [2:0] func3,
-		input wire [1:0] alu_op,
-		output reg [3:0] alu_control
+      input wire [1:0] alu_op,
+      output reg [3:0] alu_control
    );
 
-   
    //The ALUOP codes can be found
    //in chapter 4.4 of the book.
    parameter [1:0] ADD_OPCODE    = 2'b00;
@@ -24,7 +23,7 @@ module alu_control(
    parameter [3:0] SRL_OP        = 4'd4;
    parameter [3:0] SUB_OP        = 4'd6;
    parameter [3:0] SLT_OP        = 4'd7;
-
+   parameter [3:0] MUL_OP        = 4'd8; // Added multiplication operation
 
    //The decoding of the instruction funtion field into the desired
    //alu operation can be found in Figure 4.12 of the Patterson Book,
@@ -37,30 +36,32 @@ module alu_control(
    parameter [3:0] FUNC_SLT      = 4'b0010;
    parameter [3:0] FUNC_SLL      = 4'b0001;
    parameter [3:0] FUNC_SRL      = 4'b0101;
+   parameter [3:0] FUNC_MUL      = 4'b0001_000; // Added multiplication function field
 
-	reg [3:0] rtype_op;
+   reg [3:0] rtype_op;
    
    always @(*) begin
-		case(function_field)
-		   FUNC_ADD	:  rtype_op = ADD_OP;
-		   FUNC_SUB	:  rtype_op = SUB_OP;
-		   FUNC_AND	:  rtype_op = AND_OP;
-		   FUNC_OR 	:  rtype_op = OR_OP; 
-		   FUNC_SLT	:  rtype_op = SLT_OP;
-		   FUNC_SLL	:  rtype_op = SLL_OP;
-		   FUNC_SRL	:  rtype_op = SRL_OP;
-			default:    rtype_op = 4'd0;
-		endcase
-	end
+      case(function_field)
+         FUNC_ADD   :  rtype_op = ADD_OP;
+         FUNC_SUB   :  rtype_op = SUB_OP;
+         FUNC_AND   :  rtype_op = AND_OP;
+         FUNC_OR    :  rtype_op = OR_OP; 
+         FUNC_SLT   :  rtype_op = SLT_OP;
+         FUNC_SLL   :  rtype_op = SLL_OP;
+         FUNC_SRL   :  rtype_op = SRL_OP;
+         FUNC_MUL   :  rtype_op = MUL_OP; // Added multiplication case
+         default    :  rtype_op = 4'd0;
+      endcase
+   end
 
-	always @(*) begin
-		case(alu_op)
-			ADD_OPCODE    : alu_control = ADD_OP;	/* add */
-			SUB_OPCODE    : alu_control = SUB_OP;	/* sub */
-			R_TYPE_OPCODE : alu_control = rtype_op;
-			default       : alu_control = 'b0;
-		endcase
-	end
+   always @(*) begin
+      case(alu_op)
+         ADD_OPCODE    : alu_control = ADD_OP;   /* add */
+         SUB_OPCODE    : alu_control = SUB_OP;   /* sub */
+         R_TYPE_OPCODE : alu_control = rtype_op;
+         default       : alu_control = 'b0;
+      endcase
+   end
 
 endmodule
 
