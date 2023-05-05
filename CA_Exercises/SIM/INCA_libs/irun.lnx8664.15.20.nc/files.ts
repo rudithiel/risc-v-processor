@@ -1,8 +1,8 @@
 1682674719 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/alu.v
 1682675728 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/alu_control.v
 1681975775 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/branch_unit.v
-1682675635 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/control_unit.v
-1682675644 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/cpu.v
+1682677254 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/control_unit.v
+1682675764 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/cpu.v
 1681975775 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/immediate_extend_unit.v
 1681975775 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/mux_2.v
 1681975775 /users/students/r0921621/Documents/Computer-Architectures/risc-v-processor/CA_Exercises/Verilog/RTL/pc.v

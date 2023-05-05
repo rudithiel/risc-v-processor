@@ -16,18 +16,16 @@ module control_unit(
 
    // RISC-V opcode[6:0] (see RISC-V greensheet)
    parameter integer ALU_R      = 7'b0110011;
-   parameter integer ALU_I      = 7'b0010011;
-   parameter integer BRANCH_EQ  = 7'b1100011;
+   parameter integer ADDI      = 7'b0010011;
+   parameter integer BEQ  = 7'b1100011;
    parameter integer JUMP       = 7'b1101111;
-   parameter integer LOAD       = 7'b0000011;
-   parameter integer STORE      = 7'b0100011;
-   parameter integer MUL        = 7'b0110011;
+   parameter integer LD       = 7'b0000011;
+   parameter integer SD      = 7'b0100011;
 
    // RISC-V ALUOp[1:0] (see book Figure 4.12)
    parameter [1:0] ADD_OPCODE     = 2'b00;
    parameter [1:0] SUB_OPCODE     = 2'b01;
    parameter [1:0] R_TYPE_OPCODE  = 2'b10;
-   parameter [1:0] MUL_OPCODE     = 2'b11;
 
    //The behavior of the control unit can be found in Chapter 4, Figure 4.18
 
@@ -97,17 +95,6 @@ module control_unit(
             mem_write = 1'b1;
             branch    = 1'b0;
             alu_op    = ADD_OPCODE;
-            jump      = 1'b0;
-         end
-
-         MUL:begin
-            alu_src   = 1'b0;
-            mem_2_reg = 1'b0;
-            reg_write = 1'b1;
-            mem_read  = 1'b0;
-            mem_write = 1'b0;
-            branch    = 1'b0;
-            alu_op    = MUL_OPCODE;
             jump      = 1'b0;
          end
 
