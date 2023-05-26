@@ -48,6 +48,7 @@ wire              reg_dst,branch,mem_read,mem_2_reg,
 wire [       4:0] regfile_waddr;
 wire [      63:0] regfile_wdata,mem_data,alu_out,
                   regfile_rdata_1,regfile_rdata_2,
+                  alu_operand_1,
                   alu_operand_2;
 
 wire signed [63:0] immediate_extended;
@@ -266,7 +267,7 @@ reg_arstn_en #(
 ) regfile_rdata_2_pipe_EX_MEM (
     .clk (clk),
     .arst_n (arst_n),
-    .din(regfile_rdata_2_ID_EX), //From control unit output
+    .din(alu_operand_2), //From control unit output
     .en (enable),
     .dout(regfile_rdata_2_EX_MEM) //To reg output wire
 );
@@ -516,19 +517,21 @@ alu_control alu_ctrl(
    .alu_control    (alu_control       )
 );
 
+wire [63:0] mux_2_out;
+
 mux_2 #(
    .DATA_W(64)
 ) alu_operand_mux (
     .input_a (immediate_extended_ID_EX),
     .input_b (regfile_rdata_2_ID_EX    ),
     .select_a(alu_src_ID_EX           ),
-   .mux_out (alu_operand_2     )
+   .mux_out (mux_2_out     )
 );
 
 alu#(
    .DATA_W(64)
 ) alu(
-    .alu_in_0 (regfile_rdata_1_ID_EX ),
+    .alu_in_0 (alu_operand_1 ),
    .alu_in_1 (alu_operand_2   ),
    .alu_ctrl (alu_control     ),
    .alu_out  (alu_out         ),
@@ -554,6 +557,40 @@ branch_unit#(
    .jump_pc            (jump_pc           )
 );
 
+// Declare the forwarding unit.
+wire [1:0] rs1_forward;
+wire [1:0] rs2_forward;
+
+// Instantiate the forwarding unit.
+forwarding_unit fu(
+    .rs1(instruction_ID_EX[19:15]),  // Rs field from ID/EX pipeline register
+    .rs2(instruction_ID_EX[24:20]),  // Rt field from ID/EX pipeline register
+    .rd_MEM_WB(instruction_11_7_MEM_WB), // Rd field from MEM/WB pipeline register
+    .rd_EX_MEM(instruction_11_7_EX_MEM), // Rd field from EX/MEM pipeline register
+    .reg_write_MEM_WB(reg_write_MEM_WB), // RegWrite field from MEM/WB pipeline register
+    .reg_write_EX_MEM(reg_write_EX_MEM), // RegWrite field from EX/MEM pipeline register
+    .rs1_forward(rs1_forward), // Forwarding control for Rs
+    .rs2_forward(rs2_forward) // Forwarding control for Rt
+);
+
+mux3 #(
+  .DATA_W(64)
+) mux_inst (
+  .sel    (rs1_forward),
+  .in0    (regfile_rdata_1_ID_EX),
+  .in1    (mem_data_MEM_WB),
+  .in2    (alu_out_EX_MEM),
+  .out    (alu_operand_1)
+);
+mux3 #(
+  .DATA_W(64)
+) mux_inst2 (
+  .sel    (rs2_forward),
+  .in0    (mux_2_out),
+  .in1    (mem_data_MEM_WB),
+  .in2    (alu_out_EX_MEM),
+  .out    (alu_operand_2)
+);
 
 endmodule
 

@@ -1,4 +1,6 @@
 ../Verilog/RTL/alu.v
+../Verilog/RTL/forwarding_unit.v
+../Verilog/RTL/mux_3.v
 ../Verilog/RTL/alu_control.v
 ../Verilog/RTL/branch_unit.v
 ../Verilog/RTL/control_unit.v
