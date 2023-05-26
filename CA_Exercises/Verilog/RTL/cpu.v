@@ -267,7 +267,7 @@ reg_arstn_en #(
 ) regfile_rdata_2_pipe_EX_MEM (
     .clk (clk),
     .arst_n (arst_n),
-    .din(alu_operand_2), //From control unit output
+    .din(regfile_rdata_2_ID_EX), //From control unit output
     .en (enable),
     .dout(regfile_rdata_2_EX_MEM) //To reg output wire
 );
@@ -523,9 +523,9 @@ mux_2 #(
    .DATA_W(64)
 ) alu_operand_mux (
     .input_a (immediate_extended_ID_EX),
-    .input_b (regfile_rdata_2_ID_EX    ),
+    .input_b (mux_3_2_out    ),
     .select_a(alu_src_ID_EX           ),
-    .mux_out (mux_2_out     )
+    .mux_out (alu_operand_2     )
 );
 
 alu#(
@@ -583,6 +583,8 @@ mux_3 #(
   .mux_out    (alu_operand_1)
 );
 
+wire [63:0] mux_3_2_out;
+
 mux_3 #(
   .DATA_W(64)
 ) mux_3_inst2 (
@@ -590,7 +592,7 @@ mux_3 #(
   .input_a    (regfile_rdata_2_ID_EX),
   .input_b    (regfile_wdata),
   .input_c    (alu_out_EX_MEM),
-  .mux_out    (alu_operand_2)
+  .mux_out    (mux_3_2_out)
 );
 
 endmodule
