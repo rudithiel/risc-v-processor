@@ -7,6 +7,7 @@
 //Raddr_2 (5 bits): Address of the second register aimed to read
 //waddr (5 bits): Address of the register to be written.
 //Wdata (16 bits): Incoming data to write.
+
 //Outputs:
 //rdata_1: Data read from address 1.
 //rdata_2: Data read from address 2.
