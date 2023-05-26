@@ -518,6 +518,7 @@ alu_control alu_ctrl(
 );
 
 wire [63:0] mux_2_out;
+wire [63:0] mux_3_2_out;
 
 mux_2 #(
    .DATA_W(64)
@@ -583,7 +584,7 @@ mux_3 #(
   .mux_out    (alu_operand_1)
 );
 
-wire [63:0] mux_3_2_out;
+
 
 mux_3 #(
   .DATA_W(64)
