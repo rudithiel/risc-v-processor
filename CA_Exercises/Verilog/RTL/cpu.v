@@ -573,18 +573,18 @@ forwarding_unit fu(
     .rs2_forward(rs2_forward) // Forwarding control for Rt
 );
 
-mux3 #(
+mux_3 #(
   .DATA_W(64)
-) mux_inst (
+) mux_3_inst1 (
   .sel    (rs1_forward),
   .in0    (regfile_rdata_1_ID_EX),
   .in1    (mem_data_MEM_WB),
   .in2    (alu_out_EX_MEM),
   .out    (alu_operand_1)
 );
-mux3 #(
+mux_3 #(
   .DATA_W(64)
-) mux_inst2 (
+) mux_3_inst2 (
   .sel    (rs2_forward),
   .in0    (mux_2_out),
   .in1    (mem_data_MEM_WB),
