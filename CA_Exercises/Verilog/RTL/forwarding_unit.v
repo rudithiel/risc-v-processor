@@ -15,14 +15,12 @@ module forwarding_unit(
         rs2_forward = 2'b00;
 
         // Forwarding from EX/MEM stage.
-        if ((reg_write_EX_MEM == 1'b1 && rd_EX_MEM == rs1) && 
-            !(reg_write_MEM_WB == 1'b1 && rd_MEM_WB == rs1))
+        if (reg_write_EX_MEM == 1'b1 && rd_EX_MEM == rs1) 
             rs1_forward = 2'b10;
         else
             rs1_forward = 2'b00;
 
-        if ((reg_write_EX_MEM == 1'b1 && rd_EX_MEM == rs2) && 
-            !(reg_write_MEM_WB == 1'b1 && rd_MEM_WB == rs2))
+        if (reg_write_EX_MEM == 1'b1 && rd_EX_MEM == rs2) 
             rs2_forward = 2'b10;
         else 
             rs2_forward = 2'b00;
