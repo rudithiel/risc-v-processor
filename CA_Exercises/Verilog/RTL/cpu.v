@@ -577,7 +577,7 @@ mux_3 #(
   .DATA_W(64)
 ) mux_3_inst1 (
   .select    (rs1_forward),
-  .input_a    (alu_out_EX_MEM),
+  .input_a    (regfile_rdata_1_ID_EX),
   .input_b    (regfile_wdata),
   .input_c    (alu_out_EX_MEM),
   .mux_out    (alu_operand_1)
@@ -587,7 +587,7 @@ mux_3 #(
   .DATA_W(64)
 ) mux_3_inst2 (
   .select    (rs2_forward),
-  .input_a    (mux_2_out),
+  .input_a    (regfile_rdata_2_ID_EX),
   .input_b    (regfile_wdata),
   .input_c    (alu_out_EX_MEM),
   .mux_out    (alu_operand_2)
